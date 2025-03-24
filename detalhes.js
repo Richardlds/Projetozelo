@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (!atendimento) {
         alert('Atendimento não encontrado!');
-        window.location.href = 'index.html'; // Redireciona para a lista de atendimentos
+        window.location.href = 'index.html';
         return;
     }
 
@@ -28,6 +28,9 @@ document.addEventListener('DOMContentLoaded', function () {
             declaracaoObito: false,
             notaFiscal: false,
             orcamento: false,
+            autorizacao: false,
+            pesquisaAssinada: false,
+            comprovanteEndereco: false
         };
     }
 
@@ -45,26 +48,28 @@ document.addEventListener('DOMContentLoaded', function () {
         atualizarListaObservacoes();
 
         // Carrega o checklist
-        document.getElementById('checklistRGtitular').checked = atendimento.checklist.rgTitular;
-        document.getElementById('checklistRGfalecido').checked = atendimento.checklist.rgFalecido;
+        document.getElementById('checklistRGTitular').checked = atendimento.checklist.rgTitular;
+        document.getElementById('checklistRGFalecido').checked = atendimento.checklist.rgFalecido;
         document.getElementById('checklistDeclaracaoObito').checked = atendimento.checklist.declaracaoObito;
         document.getElementById('checklistNotaFiscal').checked = atendimento.checklist.notaFiscal;
         document.getElementById('checklistOrcamento').checked = atendimento.checklist.orcamento;
+        document.getElementById('checklistAutorizacao').checked = atendimento.checklist.autorizacao;
+        document.getElementById('checklistPesquisaAssinada').checked = atendimento.checklist.pesquisaAssinada;
+        document.getElementById('checklistComprovanteEndereco').checked = atendimento.checklist.comprovanteEndereco;
     }
 
     // Atualiza a lista de observações
     function atualizarListaObservacoes() {
         listaObservacoes.innerHTML = ''; // Limpa a lista antes de recarregar
 
-        atendimento.observacoes.forEach(obs => {
-            const li = document.createElement('li');
-
-            // Substitui quebras de linha por <br>
-            const textoFormatado = obs.replace(/\n/g, '<br>');
-            li.innerHTML = textoFormatado; // Usa innerHTML para renderizar as tags <br>
-
-            listaObservacoes.appendChild(li);
-        });
+        if (atendimento.observacoes) {
+            atendimento.observacoes.forEach(obs => {
+                const li = document.createElement('li');
+                const textoFormatado = obs.replace(/\n/g, '<br>');
+                li.innerHTML = textoFormatado;
+                listaObservacoes.appendChild(li);
+            });
+        }
     }
 
     // Adiciona uma nova observação
@@ -72,6 +77,11 @@ document.addEventListener('DOMContentLoaded', function () {
         const observacao = campoObservacoes.value.trim();
 
         if (observacao) {
+            // Inicializa o array de observações se não existir
+            if (!atendimento.observacoes) {
+                atendimento.observacoes = [];
+            }
+
             // Adiciona a nova observação ao array
             atendimento.observacoes.push(observacao);
 
@@ -99,22 +109,25 @@ document.addEventListener('DOMContentLoaded', function () {
         atendimento.status = document.getElementById('status').value;
 
         // Atualiza o checklist
-        atendimento.checklist.rgTitular = document.getElementById('checklistRGtitular').checked;
-        atendimento.checklist.rgFalecido = document.getElementById('checklistRGfalecido').checked;
+        atendimento.checklist.rgTitular = document.getElementById('checklistRGTitular').checked;
+        atendimento.checklist.rgFalecido = document.getElementById('checklistRGFalecido').checked;
         atendimento.checklist.declaracaoObito = document.getElementById('checklistDeclaracaoObito').checked;
         atendimento.checklist.notaFiscal = document.getElementById('checklistNotaFiscal').checked;
         atendimento.checklist.orcamento = document.getElementById('checklistOrcamento').checked;
+        atendimento.checklist.autorizacao = document.getElementById('checklistAutorizacao').checked;
+        atendimento.checklist.pesquisaAssinada = document.getElementById('checklistPesquisaAssinada').checked;
+        atendimento.checklist.comprovanteEndereco = document.getElementById('checklistComprovanteEndereco').checked;
 
         // Salva no localStorage
         localStorage.setItem('atendimentos', JSON.stringify(atendimentos));
 
         alert('Atendimento atualizado com sucesso!');
-        window.location.href = 'index.html'; // Redireciona para a página principal
+        window.location.href = 'index.html';
     });
 
     // Função para fechar a janela de detalhes
     function fecharDetalhes() {
-        window.location.href = 'index.html'; // Redireciona para a página principal
+        window.location.href = 'index.html';
     }
 
     // Adicionar evento ao botão de fechar (x)
