@@ -42,6 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('nomeFalecido').value = atendimento.nomeFalecido;
         document.getElementById('cidadeEstado').value = atendimento.cidadeEstado;
         document.getElementById('prestador').value = atendimento.prestador;
+        document.getElementById('modalidade').value = atendimento.modalidade || 'MAWDY';
         document.getElementById('status').value = atendimento.status;
 
         // Carrega as observações
@@ -106,6 +107,7 @@ document.addEventListener('DOMContentLoaded', function () {
         atendimento.nomeFalecido = document.getElementById('nomeFalecido').value;
         atendimento.cidadeEstado = document.getElementById('cidadeEstado').value;
         atendimento.prestador = document.getElementById('prestador').value;
+        atendimento.modalidade = document.getElementById('modalidade').value;
         atendimento.status = document.getElementById('status').value;
 
         // Atualiza o checklist

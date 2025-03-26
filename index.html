@@ -9,10 +9,12 @@
 </head>
 <body>
   version 1.0
+   <button id="gerarAtendimentoExemplo">Gerar Atendimento de Exemplo</button>
 
     <div class="container">
       
         <h1>Passagem de plantão</h1>
+        
         
         <!-- Campo de pesquisa -->
         <div class="campo-pesquisa">
@@ -21,6 +23,17 @@
 
         <!-- Botão para abrir a modal -->
         <button id="abrirModal">Adicionar Atendimento</button>
+                    <!-- Campo de filtro por modalidade -->
+<div class="campo-filtro">
+  <label for="filtroModalidade">Filtrar por Modalidade:</label>
+  <select id="filtroModalidade">
+    <option value="todas">Todas</option>
+    <option value="MAWDY">MAWDY</option>
+    <option value="PET">PET</option>
+    <option value="B2C">B2C</option>
+    <option value="B2B">B2B</option>
+  </select>
+</div>
 
 
         <!-- Abas -->
@@ -33,6 +46,7 @@
         <!-- Conteúdo das abas -->
         <div id="emAndamento" class="abaConteudo active">
             <h2>Em andamento</h2>
+
             <table>
                 <thead>
                     <tr>
@@ -42,6 +56,7 @@
                         <th>Nome Falecido</th>
                         <th>Cidade/Estado</th>
                         <th>Prestador</th>
+                        <th>Modalidade</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -61,6 +76,7 @@
                         <th>Nome Falecido</th>
                         <th>Cidade/Estado</th>
                         <th>Prestador</th>
+                        <th>Modalidade</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -80,6 +96,7 @@
                         <th>Nome Falecido</th>
                         <th>Cidade/Estado</th>
                         <th>Prestador</th>
+                        <th>Modalidade</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -112,11 +129,20 @@
                     <label for="prestador">Prestador:</label>
                     <input type="text" id="prestador" name="prestador" required>
 
+                    <label for="modalidade">Modalidade:</label>
+                    <select id="modalidade" name="modalidade" required>
+                        <option value="MAWDY">MAWDY</option>
+                        <option value="PET">PET</option>
+                        <option value="B2C">B2C</option>
+                        <option value="B2B">B2B</option>
+                    </select>
+
                     <label for="status">Status:</label>
                     <select id="status" name="status" required>
                         <option value="emAndamento">Em andamento</option>
                         <option value="zeloInforma">Zelo Informa</option>
                         <option value="finalizado">Finalizado</option>
+                        <option value="cancelado">Cancelado</option>
                     </select>
 
                     <button type="submit">Salvar</button>

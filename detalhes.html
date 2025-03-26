@@ -14,8 +14,6 @@
        
         <h1>Detalhes do Atendimento</h1>
         
-       
-
         <!-- Formulário de edição -->
         <form id="editarAtendimento">
             <label for="numeroVegas">N° Vegas:</label>
@@ -36,11 +34,20 @@
             <label for="prestador">Prestador:</label>
             <input type="text" id="prestador" name="prestador" required>
 
+            <label for="modalidade">Modalidade:</label>
+            <select id="modalidade" name="modalidade" required>
+                <option value="MAWDY">MAWDY</option>
+                <option value="PET">PET</option>
+                <option value="B2C">B2C</option>
+                <option value="B2B">B2B</option>
+            </select>
+
             <label for="status">Status:</label>
             <select id="status" name="status" required>
                 <option value="emAndamento">Em andamento</option>
                 <option value="zeloInforma">Zelo Informa</option>
                 <option value="finalizado">Finalizado</option>
+                <option value="cancelado">Cancelado</option>
             </select>
 
             <!-- Área de checklist e observações -->
@@ -95,7 +102,6 @@
           
 
                 
-
             <!-- Botão Salvar Alterações -->
             <button type="submit" style="margin-top: 20px;">Salvar Alterações</button>
         </form>

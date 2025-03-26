@@ -1,11 +1,68 @@
+// script.js
 document.addEventListener('DOMContentLoaded', function () {
     const formAtendimento = document.getElementById('formAtendimento');
     const tabelaEmAndamento = document.querySelector('#emAndamento tbody');
     const tabelaZeloInforma = document.querySelector('#zeloInforma tbody');
     const tabelaFinalizado = document.querySelector('#finalizado tbody');
+    const tabelaCancelado = document.querySelector('#cancelado tbody');
 
     // Inicializa o array de atendimentos
     let atendimentos = JSON.parse(localStorage.getItem('atendimentos')) || [];
+
+    // Função para gerar um atendimento aleatório de exemplo
+    document.getElementById('gerarAtendimentoExemplo').addEventListener('click', function() {
+        // Dados fictícios para geração
+        const nomesTitulares = ['João Silva', 'Maria Oliveira', 'Carlos Souza', 'Ana Pereira', 'Pedro Costa'];
+        const nomesFalecidos = ['José Santos', 'Antônio Ferreira', 'Francisco Almeida', 'Paulo Rodrigues', 'Lucas Lima'];
+        const cidadesEstados = ['São Paulo/SP', 'Rio de Janeiro/RJ', 'Belo Horizonte/MG', 'Porto Alegre/RS', 'Curitiba/PR'];
+        const prestadores = ['Funerária Paz Eterna', 'Memorial Serviços', 'Lar Celestial', 'Ultima Homenagem', 'Descanso Eterno'];
+        const modalidades = ['MAWDY', 'PET', 'B2C', 'B2B'];
+        const statusOptions = ['emAndamento', 'zeloInforma', 'finalizado', 'cancelado'];
+        
+        // Gera dados aleatórios
+        const numeroVegas = Math.floor(Math.random() * 9000) + 1000;
+        const cpfTitular = `${Math.floor(Math.random() * 900) + 100}.${Math.floor(Math.random() * 900) + 100}.${Math.floor(Math.random() * 900) + 100}-${Math.floor(Math.random() * 90) + 10}`;
+        const nomeTitular = nomesTitulares[Math.floor(Math.random() * nomesTitulares.length)];
+        const nomeFalecido = nomesFalecidos[Math.floor(Math.random() * nomesFalecidos.length)];
+        const cidadeEstado = cidadesEstados[Math.floor(Math.random() * cidadesEstados.length)];
+        const prestador = prestadores[Math.floor(Math.random() * prestadores.length)];
+        const modalidade = modalidades[Math.floor(Math.random() * modalidades.length)];
+        const status = statusOptions[Math.floor(Math.random() * statusOptions.length)];
+        
+        // Cria o objeto do atendimento
+        const atendimento = {
+            numeroVegas: numeroVegas.toString(),
+            cpfTitular,
+            nomeTitular,
+            nomeFalecido,
+            cidadeEstado,
+            prestador,
+            modalidade,
+            status,
+            observacoes: [
+                'Primeiro contato realizado com sucesso',
+                'Documentação pendente de envio',
+                'Aguardando retorno do cliente'
+            ],
+            checklist: {
+                rgTitular: Math.random() > 0.5,
+                rgFalecido: Math.random() > 0.5,
+                declaracaoObito: Math.random() > 0.5,
+                notaFiscal: Math.random() > 0.5,
+                orcamento: Math.random() > 0.5,
+                autorizacao: Math.random() > 0.5,
+                pesquisaAssinada: Math.random() > 0.5,
+                comprovanteEndereco: Math.random() > 0.5
+            }
+        };
+        
+        // Adiciona e salva o atendimento
+        atendimentos.push(atendimento);
+        localStorage.setItem('atendimentos', JSON.stringify(atendimentos));
+        atualizarTabela(atendimento);
+        
+        alert(`Atendimento de exemplo #${numeroVegas} criado com sucesso!`);
+    });
 
     // Função para adicionar atendimento
     formAtendimento.addEventListener('submit', function (e) {
@@ -18,15 +75,16 @@ document.addEventListener('DOMContentLoaded', function () {
         const nomeFalecido = document.getElementById('nomeFalecido').value.trim();
         const cidadeEstado = document.getElementById('cidadeEstado').value.trim();
         const prestador = document.getElementById('prestador').value.trim();
+        const modalidade = document.getElementById('modalidade').value;
         const status = document.getElementById('status').value;
 
-        // Valida se todos os campos obrigatórios foram preenchidos
-        if (!numeroVegas || !cpfTitular || !nomeTitular || !nomeFalecido || !cidadeEstado || !prestador || !status) {
+        // Validação dos campos
+        if (!numeroVegas || !cpfTitular || !nomeTitular || !nomeFalecido || !cidadeEstado || !prestador || !status || !modalidade) {
             alert('Por favor, preencha todos os campos obrigatórios.');
             return;
         }
 
-        // Cria o objeto do atendimento
+        // Cria e salva o atendimento
         const atendimento = {
             numeroVegas,
             cpfTitular,
@@ -34,23 +92,15 @@ document.addEventListener('DOMContentLoaded', function () {
             nomeFalecido,
             cidadeEstado,
             prestador,
+            modalidade,
             status,
-            observacoes: [], // Observações são opcionais e começam vazias
+            observacoes: [],
         };
 
-        // Adiciona o atendimento ao array
         atendimentos.push(atendimento);
-
-        // Salva no localStorage
         localStorage.setItem('atendimentos', JSON.stringify(atendimentos));
-
-        // Atualiza a tabela correspondente ao status
         atualizarTabela(atendimento);
-
-        // Exibe o pop-up de confirmação
         mostrarPopupConfirmacaoSalvar();
-
-        // Fecha a modal e limpa o formulário
         fecharModal();
         formAtendimento.reset();
     });
@@ -60,17 +110,16 @@ document.addEventListener('DOMContentLoaded', function () {
         const modalConfirmacaoSalvar = document.getElementById('modalConfirmacaoSalvar');
         modalConfirmacaoSalvar.style.display = 'flex';
 
-        // Fecha o pop-up após 2 segundos e redireciona para a tela de atendimentos
         setTimeout(() => {
             modalConfirmacaoSalvar.style.display = 'none';
-            window.location.href = 'index.html'; // Redireciona para a página principal
+            window.location.href = 'index.html';
         }, 2000);
     }
 
     // Fechar modal de confirmação de salvamento
     document.getElementById('fecharConfirmacaoSalvar').addEventListener('click', function () {
         document.getElementById('modalConfirmacaoSalvar').style.display = 'none';
-        window.location.href = 'index.html'; // Redireciona para a página principal
+        window.location.href = 'index.html';
     });
 
     // Função para atualizar a tabela
@@ -83,18 +132,19 @@ document.addEventListener('DOMContentLoaded', function () {
             <td>${atendimento.nomeFalecido}</td>
             <td>${atendimento.cidadeEstado}</td>
             <td>${atendimento.prestador}</td>
+            <td>${atendimento.modalidade}</td>
         `;
 
-        // Adiciona um evento de clique na linha para abrir o atendimento
         row.addEventListener('click', () => abrirDetalhes(atendimento.numeroVegas));
 
-        // Adiciona a linha na tabela correta
         if (atendimento.status === 'emAndamento') {
             tabelaEmAndamento.appendChild(row);
         } else if (atendimento.status === 'zeloInforma') {
             tabelaZeloInforma.appendChild(row);
         } else if (atendimento.status === 'finalizado') {
             tabelaFinalizado.appendChild(row);
+        } else if (atendimento.status === 'cancelado') {
+            tabelaCancelado.appendChild(row);
         }
     }
 
@@ -113,7 +163,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Função para abrir os detalhes do atendimento
     function abrirDetalhes(numeroVegas) {
-        // Redireciona para a página de detalhes com o número do Vegas como parâmetro
         window.location.href = `detalhes.html?numeroVegas=${numeroVegas}`;
     }
 
@@ -122,18 +171,13 @@ document.addEventListener('DOMContentLoaded', function () {
         botao.addEventListener('click', function () {
             const aba = this.getAttribute('data-aba');
 
-            // Remove a classe 'active' de todos os botões
             document.querySelectorAll('.abaLink').forEach(b => b.classList.remove('active'));
-
-            // Adiciona a classe 'active' ao botão clicado
             this.classList.add('active');
 
-            // Oculta todas as tabelas
             document.querySelectorAll('.abaConteudo').forEach(tabela => {
                 tabela.classList.remove('active');
             });
 
-            // Exibe a tabela correspondente à aba clicada
             document.getElementById(aba).classList.add('active');
         });
     });
@@ -149,21 +193,34 @@ document.addEventListener('DOMContentLoaded', function () {
         const linhasEmAndamento = document.querySelectorAll('#emAndamento tbody tr');
         const linhasZeloInforma = document.querySelectorAll('#zeloInforma tbody tr');
         const linhasFinalizado = document.querySelectorAll('#finalizado tbody tr');
+        const linhasCancelado = document.querySelectorAll('#cancelado tbody tr');
 
         filtrarTabela(linhasEmAndamento, termo);
         filtrarTabela(linhasZeloInforma, termo);
         filtrarTabela(linhasFinalizado, termo);
+        filtrarTabela(linhasCancelado, termo);
     }
 
     // Função para filtrar uma tabela específica
     function filtrarTabela(linhas, termo) {
         linhas.forEach(linha => {
             const textoLinha = linha.textContent.toLowerCase();
-            if (textoLinha.includes(termo)) {
-                linha.style.display = ''; // Exibe a linha
-            } else {
-                linha.style.display = 'none'; // Oculta a linha
-            }
+            linha.style.display = textoLinha.includes(termo) ? '' : 'none';
+        });
+    }
+
+    // Adicionar evento de mudança no campo de filtro por modalidade
+    document.getElementById('filtroModalidade').addEventListener('change', function () {
+        const modalidade = this.value;
+        filtrarPorModalidade(modalidade);
+    });
+
+    // Função para filtrar atendimentos por modalidade
+    function filtrarPorModalidade(modalidade) {
+        const todasLinhas = document.querySelectorAll('tbody tr');
+        todasLinhas.forEach(linha => {
+            const textoModalidade = linha.querySelector('td:nth-child(7)').textContent;
+            linha.style.display = (modalidade === 'todas' || textoModalidade === modalidade) ? '' : 'none';
         });
     }
 
