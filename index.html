@@ -41,69 +41,89 @@
             <button class="abaLink active" data-aba="emAndamento">Em andamento</button>
             <button class="abaLink" data-aba="zeloInforma">Zelo Informa</button>
             <button class="abaLink" data-aba="finalizado">Finalizado</button>
+            <button class="abaLink" data-aba="cancelado">Cancelado</button>
         </div>
 
         <!-- Conteúdo das abas -->
-        <div id="emAndamento" class="abaConteudo active">
-            <h2>Em andamento</h2>
+<div id="emAndamento" class="abaConteudo active">
+    <h2>Em andamento</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>N° Vegas</th>
+                <th>CPF Titular</th>
+                <th>Nome Titular</th>
+                <th>Nome Falecido</th>
+                <th>Cidade/Estado</th>
+                <th>Prestador</th>
+                <th>Modalidade</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Dados serão inseridos aqui via JavaScript -->
+        </tbody>
+    </table>
+</div>
 
-            <table>
-                <thead>
-                    <tr>
-                        <th>N° Vegas</th>
-                        <th>CPF Titular</th>
-                        <th>Nome Titular</th>
-                        <th>Nome Falecido</th>
-                        <th>Cidade/Estado</th>
-                        <th>Prestador</th>
-                        <th>Modalidade</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Dados serão inseridos aqui via JavaScript -->
-                </tbody>
-            </table>
-        </div>
+<div id="zeloInforma" class="abaConteudo">
+    <h2>Zelo Informa</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>N° Vegas</th>
+                <th>CPF Titular</th>
+                <th>Nome Titular</th>
+                <th>Nome Falecido</th>
+                <th>Cidade/Estado</th>
+                <th>Prestador</th>
+                <th>Modalidade</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Dados serão inseridos aqui via JavaScript -->
+        </tbody>
+    </table>
+</div>
 
-        <div id="zeloInforma" class="abaConteudo">
-            <h2>Zelo Informa</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>N° Vegas</th>
-                        <th>CPF Titular</th>
-                        <th>Nome Titular</th>
-                        <th>Nome Falecido</th>
-                        <th>Cidade/Estado</th>
-                        <th>Prestador</th>
-                        <th>Modalidade</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Dados serão inseridos aqui via JavaScript -->
-                </tbody>
-            </table>
-        </div>
+<div id="finalizado" class="abaConteudo">
+    <h2>Finalizado</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>N° Vegas</th>
+                <th>CPF Titular</th>
+                <th>Nome Titular</th>
+                <th>Nome Falecido</th>
+                <th>Cidade/Estado</th>
+                <th>Prestador</th>
+                <th>Modalidade</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Dados serão inseridos aqui via JavaScript -->
+        </tbody>
+    </table>
+</div>
 
-        <div id="finalizado" class="abaConteudo">
-            <h2>Finalizado</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>N° Vegas</th>
-                        <th>CPF Titular</th>
-                        <th>Nome Titular</th>
-                        <th>Nome Falecido</th>
-                        <th>Cidade/Estado</th>
-                        <th>Prestador</th>
-                        <th>Modalidade</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Dados serão inseridos aqui via JavaScript -->
-                </tbody>
-            </table>
-        </div>
+<div id="cancelado" class="abaConteudo">
+    <h2>Cancelado</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>N° Vegas</th>
+                <th>CPF Titular</th>
+                <th>Nome Titular</th>
+                <th>Nome Falecido</th>
+                <th>Cidade/Estado</th>
+                <th>Prestador</th>
+                <th>Modalidade</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Dados serão inseridos aqui via JavaScript -->
+        </tbody>
+    </table>
+</div>
 
         <!-- Modal para adicionar atendimento -->
         <div id="modal" class="modal">
