@@ -9,12 +9,12 @@
 </head>
 <body>
     <div class="container">
-      <div class="fecharDetalhescontainer"><!-- Botão de fechar (x) dentro do container -->
-        <span class="fecharDetalhes" onclick="fecharDetalhes()">&times;</span></div>
+      <div class="fecharDetalhescontainer">
+        <span class="fecharDetalhes" onclick="fecharDetalhes()">&times;</span>
+      </div>
        
         <h1>Detalhes do Atendimento</h1>
         
-        <!-- Formulário de edição -->
         <form id="editarAtendimento">
             <label for="numeroVegas">N° Vegas:</label>
             <input type="text" id="numeroVegas" name="numeroVegas" required readonly>
@@ -34,6 +34,9 @@
             <label for="prestador">Prestador:</label>
             <input type="text" id="prestador" name="prestador" required>
 
+            <label for="atendente">Atendente:</label>
+            <input type="text" id="atendente" name="atendente" required>
+
             <label for="modalidade">Modalidade:</label>
             <select id="modalidade" name="modalidade" required>
                 <option value="MAWDY">MAWDY</option>
@@ -50,45 +53,43 @@
                 <option value="cancelado">Cancelado</option>
             </select>
 
-            <!-- Área de checklist e observações -->
             <div class="checklist-observacoes-container">
                 <div style="flex: 1;">
                     <h2>Checklist</h2>
                     <ul id="checklist">
-                       <li>
-        <input type="checkbox" id="checklistRGTitular">
-        <label for="checklistRGTitular">RG Titular / Declarante</label>
-    </li>
-    <li>
-        <input type="checkbox" id="checklistRGFalecido">
-        <label for="checklistRGFalecido">RG Falecido</label>
-    </li>
-    <li>
-        <input type="checkbox" id="checklistDeclaracaoObito">
-        <label for="checklistDeclaracaoObito">Declaração de Óbito</label>
-    </li>
-    <li>
-        <input type="checkbox" id="checklistNotaFiscal">
-        <label for="checklistNotaFiscal">Nota Fiscal</label>
-    </li>
-    <li>
-        <input type="checkbox" id="checklistOrcamento">
-        <label for="checklistOrcamento">Orçamento</label>
-    </li>
-    <li>
-        <input type="checkbox" id="checklistAutorizacao">
-        <label for="checklistAutorizacao">Autorização</label>
-    </li>
-    <li>
-        <input type="checkbox" id="checklistPesquisaAssinada">
-        <label for="checklistPesquisaAssinada">Pesquisa Assinada</label>
-    </li>
-    <li>
-        <input type="checkbox" id="checklistComprovanteEndereco">
-        <label for="checklistComprovanteEndereco">Comprovante de Endereço</label>
-    </li>
+                        <li>
+                            <input type="checkbox" id="checklistRGTitular">
+                            <label for="checklistRGTitular">RG Titular / Declarante</label>
+                        </li>
+                        <li>
+                            <input type="checkbox" id="checklistRGFalecido">
+                            <label for="checklistRGFalecido">RG Falecido</label>
+                        </li>
+                        <li>
+                            <input type="checkbox" id="checklistDeclaracaoObito">
+                            <label for="checklistDeclaracaoObito">Declaração de Óbito</label>
+                        </li>
+                        <li>
+                            <input type="checkbox" id="checklistNotaFiscal">
+                            <label for="checklistNotaFiscal">Nota Fiscal</label>
+                        </li>
+                        <li>
+                            <input type="checkbox" id="checklistOrcamento">
+                            <label for="checklistOrcamento">Orçamento</label>
+                        </li>
+                        <li>
+                            <input type="checkbox" id="checklistAutorizacao">
+                            <label for="checklistAutorizacao">Autorização</label>
+                        </li>
+                        <li>
+                            <input type="checkbox" id="checklistPesquisaAssinada">
+                            <label for="checklistPesquisaAssinada">Pesquisa Assinada</label>
+                        </li>
+                        <li>
+                            <input type="checkbox" id="checklistComprovanteEndereco">
+                            <label for="checklistComprovanteEndereco">Comprovante de Endereço</label>
+                        </li>
                     </ul>
-                </div>
                 </div>
                 <div class="observacoes-container">
                     <h2>Observações</h2>
@@ -99,17 +100,13 @@
                         <!-- Observações serão adicionadas aqui via JavaScript -->
                     </ul>
                 </div>
-          
+            </div>
 
-                
-            <!-- Botão Salvar Alterações -->
             <button type="submit" style="margin-top: 20px;">Salvar Alterações</button>
         </form>
 
-        <!-- Botão para deletar atendimento -->
         <button id="deletarAtendimento" style="background-color: #dc3545; margin-top: 20px;">Deletar Atendimento</button>
 
-        <!-- Modal de confirmação para deletar -->
         <div id="modalConfirmacao" class="modal">
             <div class="modal-content">
                 <h2>Confirmar Exclusão</h2>

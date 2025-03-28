@@ -1,4 +1,3 @@
-// script.js
 document.addEventListener('DOMContentLoaded', function () {
     const formAtendimento = document.getElementById('formAtendimento');
     const tabelaEmAndamento = document.querySelector('#emAndamento tbody');
@@ -6,20 +5,17 @@ document.addEventListener('DOMContentLoaded', function () {
     const tabelaFinalizado = document.querySelector('#finalizado tbody');
     const tabelaCancelado = document.querySelector('#cancelado tbody');
 
-    // Inicializa o array de atendimentos
     let atendimentos = JSON.parse(localStorage.getItem('atendimentos')) || [];
 
-    // Função para gerar um atendimento aleatório de exemplo
     document.getElementById('gerarAtendimentoExemplo').addEventListener('click', function() {
-        // Dados fictícios para geração
         const nomesTitulares = ['João Silva', 'Maria Oliveira', 'Carlos Souza', 'Ana Pereira', 'Pedro Costa'];
         const nomesFalecidos = ['José Santos', 'Antônio Ferreira', 'Francisco Almeida', 'Paulo Rodrigues', 'Lucas Lima'];
         const cidadesEstados = ['São Paulo/SP', 'Rio de Janeiro/RJ', 'Belo Horizonte/MG', 'Porto Alegre/RS', 'Curitiba/PR'];
         const prestadores = ['Funerária Paz Eterna', 'Memorial Serviços', 'Lar Celestial', 'Ultima Homenagem', 'Descanso Eterno'];
         const modalidades = ['MAWDY', 'PET', 'B2C', 'B2B'];
         const statusOptions = ['emAndamento', 'zeloInforma', 'finalizado', 'cancelado'];
+        const atendentes = ['Ana Carolina', 'Bruno Oliveira', 'Camila Santos', 'Daniel Costa', 'Elaine Pereira', 'Fernando Souza', 'Gabriela Lima', 'Hugo Almeida'];
         
-        // Gera dados aleatórios
         const numeroVegas = Math.floor(Math.random() * 9000) + 1000;
         const cpfTitular = `${Math.floor(Math.random() * 900) + 100}.${Math.floor(Math.random() * 900) + 100}.${Math.floor(Math.random() * 900) + 100}-${Math.floor(Math.random() * 90) + 10}`;
         const nomeTitular = nomesTitulares[Math.floor(Math.random() * nomesTitulares.length)];
@@ -28,8 +24,8 @@ document.addEventListener('DOMContentLoaded', function () {
         const prestador = prestadores[Math.floor(Math.random() * prestadores.length)];
         const modalidade = modalidades[Math.floor(Math.random() * modalidades.length)];
         const status = statusOptions[Math.floor(Math.random() * statusOptions.length)];
+        const atendente = atendentes[Math.floor(Math.random() * atendentes.length)];
         
-        // Cria o objeto do atendimento
         const atendimento = {
             numeroVegas: numeroVegas.toString(),
             cpfTitular,
@@ -39,10 +35,11 @@ document.addEventListener('DOMContentLoaded', function () {
             prestador,
             modalidade,
             status,
+            atendente,
             observacoes: [
-                'Primeiro contato realizado com sucesso',
-                'Documentação pendente de envio',
-                'Aguardando retorno do cliente'
+                `${atendente} - ${new Date().toLocaleString()} - Primeiro contato realizado com sucesso`,
+                `${atendente} - ${new Date().toLocaleString()} - Documentação pendente de envio`,
+                `${atendente} - ${new Date().toLocaleString()} - Aguardando retorno do cliente`
             ],
             checklist: {
                 rgTitular: Math.random() > 0.5,
@@ -56,35 +53,31 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         };
         
-        // Adiciona e salva o atendimento
         atendimentos.push(atendimento);
         localStorage.setItem('atendimentos', JSON.stringify(atendimentos));
         atualizarTabela(atendimento);
         
-        alert(`Atendimento de exemplo #${numeroVegas} criado com sucesso!`);
+        alert(`Atendimento de exemplo #${numeroVegas} criado com sucesso!\nAtendente: ${atendente}`);
     });
 
-    // Função para adicionar atendimento
     formAtendimento.addEventListener('submit', function (e) {
         e.preventDefault();
 
-        // Captura os dados do formulário
         const numeroVegas = document.getElementById('numeroVegas').value.trim();
         const cpfTitular = document.getElementById('cpfTitular').value.trim();
         const nomeTitular = document.getElementById('nomeTitular').value.trim();
         const nomeFalecido = document.getElementById('nomeFalecido').value.trim();
         const cidadeEstado = document.getElementById('cidadeEstado').value.trim();
         const prestador = document.getElementById('prestador').value.trim();
+        const atendente = document.getElementById('atendente').value;
         const modalidade = document.getElementById('modalidade').value;
         const status = document.getElementById('status').value;
 
-        // Validação dos campos
-        if (!numeroVegas || !cpfTitular || !nomeTitular || !nomeFalecido || !cidadeEstado || !prestador || !status || !modalidade) {
+        if (!numeroVegas || !cpfTitular || !nomeTitular || !nomeFalecido || !cidadeEstado || !prestador || !status || !modalidade || !atendente) {
             alert('Por favor, preencha todos os campos obrigatórios.');
             return;
         }
 
-        // Cria e salva o atendimento
         const atendimento = {
             numeroVegas,
             cpfTitular,
@@ -92,9 +85,20 @@ document.addEventListener('DOMContentLoaded', function () {
             nomeFalecido,
             cidadeEstado,
             prestador,
+            atendente,
             modalidade,
             status,
             observacoes: [],
+            checklist: {
+                rgTitular: false,
+                rgFalecido: false,
+                declaracaoObito: false,
+                notaFiscal: false,
+                orcamento: false,
+                autorizacao: false,
+                pesquisaAssinada: false,
+                comprovanteEndereco: false
+            }
         };
 
         atendimentos.push(atendimento);
@@ -105,7 +109,6 @@ document.addEventListener('DOMContentLoaded', function () {
         formAtendimento.reset();
     });
 
-    // Função para mostrar o pop-up de confirmação de salvamento
     function mostrarPopupConfirmacaoSalvar() {
         const modalConfirmacaoSalvar = document.getElementById('modalConfirmacaoSalvar');
         modalConfirmacaoSalvar.style.display = 'flex';
@@ -116,13 +119,11 @@ document.addEventListener('DOMContentLoaded', function () {
         }, 2000);
     }
 
-    // Fechar modal de confirmação de salvamento
     document.getElementById('fecharConfirmacaoSalvar').addEventListener('click', function () {
         document.getElementById('modalConfirmacaoSalvar').style.display = 'none';
         window.location.href = 'index.html';
     });
 
-    // Função para atualizar a tabela
     function atualizarTabela(atendimento) {
         const row = document.createElement('tr');
         row.innerHTML = `
@@ -133,6 +134,7 @@ document.addEventListener('DOMContentLoaded', function () {
             <td>${atendimento.cidadeEstado}</td>
             <td>${atendimento.prestador}</td>
             <td>${atendimento.modalidade}</td>
+            <td>${atendimento.atendente}</td>
         `;
 
         row.addEventListener('click', () => abrirDetalhes(atendimento.numeroVegas));
@@ -148,25 +150,20 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Função para abrir a modal de adicionar atendimento
     document.getElementById('abrirModal').addEventListener('click', function () {
         document.getElementById('modal').style.display = 'flex';
     });
 
-    // Função para fechar a modal
     function fecharModal() {
         document.getElementById('modal').style.display = 'none';
     }
 
-    // Fechar modal ao clicar no "X"
     document.querySelector('.fecharModal').addEventListener('click', fecharModal);
 
-    // Função para abrir os detalhes do atendimento
     function abrirDetalhes(numeroVegas) {
         window.location.href = `detalhes.html?numeroVegas=${numeroVegas}`;
     }
 
-    // Adicionar eventos aos botões das abas
     document.querySelectorAll('.abaLink').forEach(botao => {
         botao.addEventListener('click', function () {
             const aba = this.getAttribute('data-aba');
@@ -182,13 +179,11 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // Adicionar evento de input no campo de pesquisa
     document.getElementById('campoPesquisa').addEventListener('input', function () {
         const termo = this.value.trim().toLowerCase();
         filtrarAtendimentos(termo);
     });
 
-    // Função para filtrar atendimentos
     function filtrarAtendimentos(termo) {
         const linhasEmAndamento = document.querySelectorAll('#emAndamento tbody tr');
         const linhasZeloInforma = document.querySelectorAll('#zeloInforma tbody tr');
@@ -201,7 +196,6 @@ document.addEventListener('DOMContentLoaded', function () {
         filtrarTabela(linhasCancelado, termo);
     }
 
-    // Função para filtrar uma tabela específica
     function filtrarTabela(linhas, termo) {
         linhas.forEach(linha => {
             const textoLinha = linha.textContent.toLowerCase();
@@ -209,13 +203,11 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Adicionar evento de mudança no campo de filtro por modalidade
     document.getElementById('filtroModalidade').addEventListener('change', function () {
         const modalidade = this.value;
         filtrarPorModalidade(modalidade);
     });
 
-    // Função para filtrar atendimentos por modalidade
     function filtrarPorModalidade(modalidade) {
         const todasLinhas = document.querySelectorAll('tbody tr');
         todasLinhas.forEach(linha => {
@@ -224,13 +216,11 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Carregar atendimentos ao abrir a página
     function carregarAtendimentos() {
         atendimentos.forEach(atendimento => {
             atualizarTabela(atendimento);
         });
     }
 
-    // Carrega os atendimentos ao abrir a página
     carregarAtendimentos();
 });

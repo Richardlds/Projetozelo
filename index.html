@@ -15,7 +15,6 @@
       
         <h1>Passagem de plantão</h1>
         
-        
         <!-- Campo de pesquisa -->
         <div class="campo-pesquisa">
             <input type="text" id="campoPesquisa" placeholder="Pesquisar por N° Vegas, CPF, Nome Titular, etc.">
@@ -23,18 +22,18 @@
 
         <!-- Botão para abrir a modal -->
         <button id="abrirModal">Adicionar Atendimento</button>
-                    <!-- Campo de filtro por modalidade -->
-<div class="campo-filtro">
-  <label for="filtroModalidade">Filtrar por Modalidade:</label>
-  <select id="filtroModalidade">
-    <option value="todas">Todas</option>
-    <option value="MAWDY">MAWDY</option>
-    <option value="PET">PET</option>
-    <option value="B2C">B2C</option>
-    <option value="B2B">B2B</option>
-  </select>
-</div>
-
+        
+        <!-- Campo de filtro por modalidade -->
+        <div class="campo-filtro">
+            <label for="filtroModalidade">Filtrar por Modalidade:</label>
+            <select id="filtroModalidade">
+                <option value="todas">Todas</option>
+                <option value="MAWDY">MAWDY</option>
+                <option value="PET">PET</option>
+                <option value="B2C">B2C</option>
+                <option value="B2B">B2B</option>
+            </select>
+        </div>
 
         <!-- Abas -->
         <div class="abas">
@@ -45,85 +44,89 @@
         </div>
 
         <!-- Conteúdo das abas -->
-<div id="emAndamento" class="abaConteudo active">
-    <h2>Em andamento</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>N° Vegas</th>
-                <th>CPF Titular</th>
-                <th>Nome Titular</th>
-                <th>Nome Falecido</th>
-                <th>Cidade/Estado</th>
-                <th>Prestador</th>
-                <th>Modalidade</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Dados serão inseridos aqui via JavaScript -->
-        </tbody>
-    </table>
-</div>
+        <div id="emAndamento" class="abaConteudo active">
+            <h2>Em andamento</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>N° Vegas</th>
+                        <th>CPF Titular</th>
+                        <th>Nome Titular</th>
+                        <th>Nome Falecido</th>
+                        <th>Cidade/Estado</th>
+                        <th>Prestador</th>
+                        <th>Modalidade</th>
+                        <th>Atendente</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Dados serão inseridos aqui via JavaScript -->
+                </tbody>
+            </table>
+        </div>
 
-<div id="zeloInforma" class="abaConteudo">
-    <h2>Zelo Informa</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>N° Vegas</th>
-                <th>CPF Titular</th>
-                <th>Nome Titular</th>
-                <th>Nome Falecido</th>
-                <th>Cidade/Estado</th>
-                <th>Prestador</th>
-                <th>Modalidade</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Dados serão inseridos aqui via JavaScript -->
-        </tbody>
-    </table>
-</div>
+        <div id="zeloInforma" class="abaConteudo">
+            <h2>Zelo Informa</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>N° Vegas</th>
+                        <th>CPF Titular</th>
+                        <th>Nome Titular</th>
+                        <th>Nome Falecido</th>
+                        <th>Cidade/Estado</th>
+                        <th>Prestador</th>
+                        <th>Modalidade</th>
+                        <th>Atendente</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Dados serão inseridos aqui via JavaScript -->
+                </tbody>
+            </table>
+        </div>
 
-<div id="finalizado" class="abaConteudo">
-    <h2>Finalizado</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>N° Vegas</th>
-                <th>CPF Titular</th>
-                <th>Nome Titular</th>
-                <th>Nome Falecido</th>
-                <th>Cidade/Estado</th>
-                <th>Prestador</th>
-                <th>Modalidade</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Dados serão inseridos aqui via JavaScript -->
-        </tbody>
-    </table>
-</div>
+        <div id="finalizado" class="abaConteudo">
+            <h2>Finalizado</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>N° Vegas</th>
+                        <th>CPF Titular</th>
+                        <th>Nome Titular</th>
+                        <th>Nome Falecido</th>
+                        <th>Cidade/Estado</th>
+                        <th>Prestador</th>
+                        <th>Modalidade</th>
+                        <th>Atendente</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Dados serão inseridos aqui via JavaScript -->
+                </tbody>
+            </table>
+        </div>
 
-<div id="cancelado" class="abaConteudo">
-    <h2>Cancelado</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>N° Vegas</th>
-                <th>CPF Titular</th>
-                <th>Nome Titular</th>
-                <th>Nome Falecido</th>
-                <th>Cidade/Estado</th>
-                <th>Prestador</th>
-                <th>Modalidade</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Dados serão inseridos aqui via JavaScript -->
-        </tbody>
-    </table>
-</div>
+        <div id="cancelado" class="abaConteudo">
+            <h2>Cancelado</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>N° Vegas</th>
+                        <th>CPF Titular</th>
+                        <th>Nome Titular</th>
+                        <th>Nome Falecido</th>
+                        <th>Cidade/Estado</th>
+                        <th>Prestador</th>
+                        <th>Modalidade</th>
+                        <th>Atendente</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Dados serão inseridos aqui via JavaScript -->
+                </tbody>
+            </table>
+        </div>
 
         <!-- Modal para adicionar atendimento -->
         <div id="modal" class="modal">
@@ -148,6 +151,9 @@
 
                     <label for="prestador">Prestador:</label>
                     <input type="text" id="prestador" name="prestador" required>
+
+                    <label for="atendente">Atendente:</label>
+                    <input type="text" id="atendente" name="atendente" required>
 
                     <label for="modalidade">Modalidade:</label>
                     <select id="modalidade" name="modalidade" required>
