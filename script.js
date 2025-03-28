@@ -1,27 +1,30 @@
 document.addEventListener('DOMContentLoaded', function () {
+    // Elementos da página principal
     const formAtendimento = document.getElementById('formAtendimento');
     const tabelaEmAndamento = document.querySelector('#emAndamento tbody');
     const tabelaZeloInforma = document.querySelector('#zeloInforma tbody');
     const tabelaFinalizado = document.querySelector('#finalizado tbody');
     const tabelaCancelado = document.querySelector('#cancelado tbody');
 
+    // Carrega atendimentos do localStorage ou inicializa array vazio
     let atendimentos = JSON.parse(localStorage.getItem('atendimentos')) || [];
     
+    // Limpa todos os atendimentos após confirmação
     document.getElementById('limparAtendimentos').addEventListener('click', function() {
-    if (confirm('ATENÇÃO: Isso apagará TODOS os atendimentos permanentemente. Deseja continuar?')) {
-        localStorage.removeItem('atendimentos');
-        atendimentos = [];
-        
-        // Limpa visualmente todas as tabelas
-        tabelaEmAndamento.innerHTML = '';
-        tabelaZeloInforma.innerHTML = '';
-        tabelaFinalizado.innerHTML = '';
-        tabelaCancelado.innerHTML = '';
-        
-        alert('Todos os atendimentos foram removidos com sucesso!');
-    }
-});
+        if (confirm('ATENÇÃO: Isso apagará TODOS os atendimentos permanentemente. Deseja continuar?')) {
+            localStorage.removeItem('atendimentos');
+            atendimentos = [];
+            
+            tabelaEmAndamento.innerHTML = '';
+            tabelaZeloInforma.innerHTML = '';
+            tabelaFinalizado.innerHTML = '';
+            tabelaCancelado.innerHTML = '';
+            
+            alert('Todos os atendimentos foram removidos com sucesso!');
+        }
+    });
 
+    // Gera um atendimento de exemplo com dados aleatórios
     document.getElementById('gerarAtendimentoExemplo').addEventListener('click', function() {
         const nomesTitulares = ['João Silva', 'Maria Oliveira', 'Carlos Souza', 'Ana Pereira', 'Pedro Costa'];
         const nomesFalecidos = ['José Santos', 'Antônio Ferreira', 'Francisco Almeida', 'Paulo Rodrigues', 'Lucas Lima'];
@@ -32,6 +35,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const atendentes = ['Ana Carolina', 'Bruno Oliveira', 'Camila Santos', 'Daniel Costa', 'Elaine Pereira', 'Fernando Souza', 'Gabriela Lima', 'Hugo Almeida'];
         const grupos = ['G1', 'G2', 'G3'];
         
+        // Gera dados aleatórios para o atendimento de exemplo
         const numeroVegas = Math.floor(Math.random() * 9000) + 1000;
         const cpfTitular = `${Math.floor(Math.random() * 900) + 100}.${Math.floor(Math.random() * 900) + 100}.${Math.floor(Math.random() * 900) + 100}-${Math.floor(Math.random() * 90) + 10}`;
         const nomeTitular = nomesTitulares[Math.floor(Math.random() * nomesTitulares.length)];
@@ -43,6 +47,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const atendente = atendentes[Math.floor(Math.random() * atendentes.length)];
         const grupo = grupos[Math.floor(Math.random() * grupos.length)];
         
+        // Cria objeto do atendimento de exemplo
         const atendimento = {
             numeroVegas: numeroVegas.toString(),
             cpfTitular,
@@ -78,9 +83,11 @@ document.addEventListener('DOMContentLoaded', function () {
         alert(`Atendimento de exemplo #${numeroVegas} criado com sucesso!\nAtendente: ${atendente}\nGrupo: ${grupo}`);
     });
 
+    // Adiciona novo atendimento
     formAtendimento.addEventListener('submit', function (e) {
         e.preventDefault();
 
+        // Obtém valores dos campos do formulário
         const numeroVegas = document.getElementById('numeroVegas').value.trim();
         const cpfTitular = document.getElementById('cpfTitular').value.trim();
         const nomeTitular = document.getElementById('nomeTitular').value.trim();
@@ -92,11 +99,13 @@ document.addEventListener('DOMContentLoaded', function () {
         const grupo = document.getElementById('grupo').value;
         const status = document.getElementById('status').value;
 
+        // Valida campos obrigatórios
         if (!numeroVegas || !cpfTitular || !nomeTitular || !nomeFalecido || !cidadeEstado || !prestador || !status || !modalidade || !atendente || !grupo) {
             alert('Por favor, preencha todos os campos obrigatórios.');
             return;
         }
 
+        // Cria objeto do novo atendimento
         const atendimento = {
             numeroVegas,
             cpfTitular,
@@ -129,6 +138,7 @@ document.addEventListener('DOMContentLoaded', function () {
         formAtendimento.reset();
     });
 
+    // Mostra popup de confirmação ao salvar atendimento
     function mostrarPopupConfirmacaoSalvar() {
         const modalConfirmacaoSalvar = document.getElementById('modalConfirmacaoSalvar');
         modalConfirmacaoSalvar.style.display = 'flex';
@@ -139,11 +149,13 @@ document.addEventListener('DOMContentLoaded', function () {
         }, 2000);
     }
 
+    // Fecha popup de confirmação
     document.getElementById('fecharConfirmacaoSalvar').addEventListener('click', function () {
         document.getElementById('modalConfirmacaoSalvar').style.display = 'none';
         window.location.href = 'index.html';
     });
 
+    // Atualiza tabela com dados do atendimento
     function atualizarTabela(atendimento) {
         const row = document.createElement('tr');
         row.setAttribute('data-grupo', atendimento.grupo);
@@ -162,6 +174,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         row.addEventListener('click', () => abrirDetalhes(atendimento.numeroVegas));
 
+        // Adiciona linha na tabela correspondente ao status
         if (atendimento.status === 'emAndamento') {
             tabelaEmAndamento.appendChild(row);
         } else if (atendimento.status === 'zeloInforma') {
@@ -173,20 +186,24 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    // Abre modal para adicionar novo atendimento
     document.getElementById('abrirModal').addEventListener('click', function () {
         document.getElementById('modal').style.display = 'flex';
     });
 
+    // Fecha modal
     function fecharModal() {
         document.getElementById('modal').style.display = 'none';
     }
 
     document.querySelector('.fecharModal').addEventListener('click', fecharModal);
 
+    // Abre página de detalhes do atendimento
     function abrirDetalhes(numeroVegas) {
         window.location.href = `detalhes.html?numeroVegas=${numeroVegas}`;
     }
 
+    // Controla navegação entre abas
     document.querySelectorAll('.abaLink').forEach(botao => {
         botao.addEventListener('click', function () {
             const aba = this.getAttribute('data-aba');
@@ -202,11 +219,13 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
+    // Filtra atendimentos conforme texto digitado
     document.getElementById('campoPesquisa').addEventListener('input', function () {
         const termo = this.value.trim().toLowerCase();
         filtrarAtendimentos(termo);
     });
 
+    // Aplica filtros nas tabelas de atendimentos
     function filtrarAtendimentos(termo) {
         const linhasEmAndamento = document.querySelectorAll('#emAndamento tbody tr');
         const linhasZeloInforma = document.querySelectorAll('#zeloInforma tbody tr');
@@ -219,6 +238,7 @@ document.addEventListener('DOMContentLoaded', function () {
         filtrarTabela(linhasCancelado, termo);
     }
 
+    // Filtra linhas de uma tabela específica
     function filtrarTabela(linhas, termo) {
         const filtroModalidade = document.getElementById('filtroModalidade').value;
         const filtroGrupo = document.getElementById('filtroGrupo').value;
@@ -236,14 +256,17 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    // Aplica filtro quando modalidade é alterada
     document.getElementById('filtroModalidade').addEventListener('change', function () {
         filtrarAtendimentos(document.getElementById('campoPesquisa').value.trim().toLowerCase());
     });
 
+    // Aplica filtro quando grupo é alterado
     document.getElementById('filtroGrupo').addEventListener('change', function () {
         filtrarAtendimentos(document.getElementById('campoPesquisa').value.trim().toLowerCase());
     });
 
+    // Carrega todos os atendimentos ao iniciar a página
     function carregarAtendimentos() {
         atendimentos.forEach(atendimento => {
             atualizarTabela(atendimento);
