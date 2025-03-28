@@ -45,6 +45,13 @@
                 <option value="B2B">B2B</option>
             </select>
 
+            <label for="grupo">Grupo:</label>
+            <select id="grupo" name="grupo" required>
+                <option value="G1">G1</option>
+                <option value="G2">G2</option>
+                <option value="G3">G3</option>
+            </select>
+
             <label for="status">Status:</label>
             <select id="status" name="status" required>
                 <option value="emAndamento">Em andamento</option>
@@ -96,9 +103,7 @@
                     <textarea id="observacoes" rows="5" placeholder="Adicione uma observação..."></textarea>
                     <button type="button" id="adicionarObservacao">Adicionar Observação</button>
 
-                    <ul id="listaObservacoes">
-                        <!-- Observações serão adicionadas aqui via JavaScript -->
-                    </ul>
+                    <ul id="listaObservacoes"></ul>
                 </div>
             </div>
 

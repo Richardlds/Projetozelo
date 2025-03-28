@@ -6,6 +6,21 @@ document.addEventListener('DOMContentLoaded', function () {
     const tabelaCancelado = document.querySelector('#cancelado tbody');
 
     let atendimentos = JSON.parse(localStorage.getItem('atendimentos')) || [];
+    
+    document.getElementById('limparAtendimentos').addEventListener('click', function() {
+    if (confirm('ATENÇÃO: Isso apagará TODOS os atendimentos permanentemente. Deseja continuar?')) {
+        localStorage.removeItem('atendimentos');
+        atendimentos = [];
+        
+        // Limpa visualmente todas as tabelas
+        tabelaEmAndamento.innerHTML = '';
+        tabelaZeloInforma.innerHTML = '';
+        tabelaFinalizado.innerHTML = '';
+        tabelaCancelado.innerHTML = '';
+        
+        alert('Todos os atendimentos foram removidos com sucesso!');
+    }
+});
 
     document.getElementById('gerarAtendimentoExemplo').addEventListener('click', function() {
         const nomesTitulares = ['João Silva', 'Maria Oliveira', 'Carlos Souza', 'Ana Pereira', 'Pedro Costa'];
@@ -15,6 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const modalidades = ['MAWDY', 'PET', 'B2C', 'B2B'];
         const statusOptions = ['emAndamento', 'zeloInforma', 'finalizado', 'cancelado'];
         const atendentes = ['Ana Carolina', 'Bruno Oliveira', 'Camila Santos', 'Daniel Costa', 'Elaine Pereira', 'Fernando Souza', 'Gabriela Lima', 'Hugo Almeida'];
+        const grupos = ['G1', 'G2', 'G3'];
         
         const numeroVegas = Math.floor(Math.random() * 9000) + 1000;
         const cpfTitular = `${Math.floor(Math.random() * 900) + 100}.${Math.floor(Math.random() * 900) + 100}.${Math.floor(Math.random() * 900) + 100}-${Math.floor(Math.random() * 90) + 10}`;
@@ -25,6 +41,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const modalidade = modalidades[Math.floor(Math.random() * modalidades.length)];
         const status = statusOptions[Math.floor(Math.random() * statusOptions.length)];
         const atendente = atendentes[Math.floor(Math.random() * atendentes.length)];
+        const grupo = grupos[Math.floor(Math.random() * grupos.length)];
         
         const atendimento = {
             numeroVegas: numeroVegas.toString(),
@@ -36,6 +53,7 @@ document.addEventListener('DOMContentLoaded', function () {
             modalidade,
             status,
             atendente,
+            grupo,
             observacoes: [
                 `${atendente} - ${new Date().toLocaleString()} - Primeiro contato realizado com sucesso`,
                 `${atendente} - ${new Date().toLocaleString()} - Documentação pendente de envio`,
@@ -57,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function () {
         localStorage.setItem('atendimentos', JSON.stringify(atendimentos));
         atualizarTabela(atendimento);
         
-        alert(`Atendimento de exemplo #${numeroVegas} criado com sucesso!\nAtendente: ${atendente}`);
+        alert(`Atendimento de exemplo #${numeroVegas} criado com sucesso!\nAtendente: ${atendente}\nGrupo: ${grupo}`);
     });
 
     formAtendimento.addEventListener('submit', function (e) {
@@ -71,9 +89,10 @@ document.addEventListener('DOMContentLoaded', function () {
         const prestador = document.getElementById('prestador').value.trim();
         const atendente = document.getElementById('atendente').value;
         const modalidade = document.getElementById('modalidade').value;
+        const grupo = document.getElementById('grupo').value;
         const status = document.getElementById('status').value;
 
-        if (!numeroVegas || !cpfTitular || !nomeTitular || !nomeFalecido || !cidadeEstado || !prestador || !status || !modalidade || !atendente) {
+        if (!numeroVegas || !cpfTitular || !nomeTitular || !nomeFalecido || !cidadeEstado || !prestador || !status || !modalidade || !atendente || !grupo) {
             alert('Por favor, preencha todos os campos obrigatórios.');
             return;
         }
@@ -87,6 +106,7 @@ document.addEventListener('DOMContentLoaded', function () {
             prestador,
             atendente,
             modalidade,
+            grupo,
             status,
             observacoes: [],
             checklist: {
@@ -126,6 +146,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function atualizarTabela(atendimento) {
         const row = document.createElement('tr');
+        row.setAttribute('data-grupo', atendimento.grupo);
+        row.setAttribute('data-modalidade', atendimento.modalidade);
         row.innerHTML = `
             <td>${atendimento.numeroVegas}</td>
             <td>${atendimento.cpfTitular}</td>
@@ -134,6 +156,7 @@ document.addEventListener('DOMContentLoaded', function () {
             <td>${atendimento.cidadeEstado}</td>
             <td>${atendimento.prestador}</td>
             <td>${atendimento.modalidade}</td>
+            <td>${atendimento.grupo}</td>
             <td>${atendimento.atendente}</td>
         `;
 
@@ -197,24 +220,29 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function filtrarTabela(linhas, termo) {
+        const filtroModalidade = document.getElementById('filtroModalidade').value;
+        const filtroGrupo = document.getElementById('filtroGrupo').value;
+
         linhas.forEach(linha => {
             const textoLinha = linha.textContent.toLowerCase();
-            linha.style.display = textoLinha.includes(termo) ? '' : 'none';
+            const modalidadeLinha = linha.getAttribute('data-modalidade');
+            const grupoLinha = linha.getAttribute('data-grupo');
+            
+            const correspondeTermo = textoLinha.includes(termo);
+            const correspondeModalidade = (filtroModalidade === 'todas' || modalidadeLinha === filtroModalidade);
+            const correspondeGrupo = (filtroGrupo === 'todos' || grupoLinha === filtroGrupo);
+            
+            linha.style.display = (correspondeTermo && correspondeModalidade && correspondeGrupo) ? '' : 'none';
         });
     }
 
     document.getElementById('filtroModalidade').addEventListener('change', function () {
-        const modalidade = this.value;
-        filtrarPorModalidade(modalidade);
+        filtrarAtendimentos(document.getElementById('campoPesquisa').value.trim().toLowerCase());
     });
 
-    function filtrarPorModalidade(modalidade) {
-        const todasLinhas = document.querySelectorAll('tbody tr');
-        todasLinhas.forEach(linha => {
-            const textoModalidade = linha.querySelector('td:nth-child(7)').textContent;
-            linha.style.display = (modalidade === 'todas' || textoModalidade === modalidade) ? '' : 'none';
-        });
-    }
+    document.getElementById('filtroGrupo').addEventListener('change', function () {
+        filtrarAtendimentos(document.getElementById('campoPesquisa').value.trim().toLowerCase());
+    });
 
     function carregarAtendimentos() {
         atendimentos.forEach(atendimento => {

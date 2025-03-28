@@ -1,3 +1,29 @@
+.botoes-superiores {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+#limparAtendimentos {
+    background-color: var(--cor-perigo);
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-weight: 600;
+}
+
+#limparAtendimentos:hover {
+    background-color: #b02a37;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#limparAtendimentos:active {
+    transform: translateY(0);
+}
 
 #gerarAtendimentoExemplo {
     background-color: #6c757d;
@@ -589,4 +615,20 @@ transition: 0s;
     .checklist-observacoes-container {
         flex-direction: column;
     }
+}
+.campo-filtro {
+    margin-bottom: 15px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.campo-filtro label {
+    font-weight: bold;
+}
+
+#filtroGrupo, #filtroModalidade {
+    padding: 8px 12px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
 }

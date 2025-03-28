@@ -29,6 +29,10 @@ document.addEventListener('DOMContentLoaded', function () {
         };
     }
 
+    if (!atendimento.grupo) {
+        atendimento.grupo = 'G1'; // Valor padrão se não existir
+    }
+
     function carregarDados() {
         document.getElementById('numeroVegas').value = atendimento.numeroVegas;
         document.getElementById('cpfTitular').value = atendimento.cpfTitular;
@@ -38,6 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('prestador').value = atendimento.prestador;
         document.getElementById('atendente').value = atendimento.atendente || '';
         document.getElementById('modalidade').value = atendimento.modalidade || 'MAWDY';
+        document.getElementById('grupo').value = atendimento.grupo || 'G1';
         document.getElementById('status').value = atendimento.status;
 
         atualizarListaObservacoes();
@@ -73,7 +78,8 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             const dataHora = new Date().toLocaleString();
-            const observacaoCompleta = `[${atendimento.atendente || 'Sem atendente'}] - ${dataHora} - ${observacao}`;
+            const atendenteAtual = document.getElementById('atendente').value || 'Sem atendente';
+            const observacaoCompleta = `[${atendenteAtual}] - ${dataHora} - ${observacao}`;
             
             atendimento.observacoes.push(observacaoCompleta);
 
@@ -93,6 +99,7 @@ document.addEventListener('DOMContentLoaded', function () {
         atendimento.prestador = document.getElementById('prestador').value;
         atendimento.atendente = document.getElementById('atendente').value;
         atendimento.modalidade = document.getElementById('modalidade').value;
+        atendimento.grupo = document.getElementById('grupo').value;
         atendimento.status = document.getElementById('status').value;
 
         atendimento.checklist.rgTitular = document.getElementById('checklistRGTitular').checked;
